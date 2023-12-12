@@ -1,5 +1,7 @@
 package algorithms.sorting;
 
+import java.util.Arrays;
+
 public class Sorting {
 
     private void bubbleSort (int[] values, boolean desc) {
@@ -15,6 +17,33 @@ public class Sorting {
         }
     }
 
+    private int[] splitAndMerge(int[] values, boolean desc) {
+        if (values.length == 1)
+            return values;
+        int mid = values.length / 2;
+        return merge(splitAndMerge(Arrays.copyOfRange(values, 0, mid), desc),
+                splitAndMerge(Arrays.copyOfRange(values, mid, values.length), desc),
+                desc);
+    }
+
+    private int[] merge(int[] left, int[] right, boolean desc) {
+        int[] data = new int[left.length + right.length];
+        int leftCounter = 0;
+        int rightCounter = 0;
+        while(leftCounter<left.length || rightCounter<right.length) {
+            data[leftCounter+rightCounter] =
+                    leftCounter==left.length ? right[rightCounter++] :
+                            rightCounter==right.length ? left[leftCounter++] :
+                                    (desc ?  (left[leftCounter] < right[rightCounter] ?
+                                            right[rightCounter++] : left[leftCounter++] ):
+                                            (left[leftCounter] > right[rightCounter] ?
+                                                    right[rightCounter++] : left[leftCounter++]));
+
+        }
+
+        return data;
+    }
+
     public static void main(String[] args) {
         Sorting sorting = new Sorting();
         int[] values = {5,4,2,1,3};
@@ -24,6 +53,10 @@ public class Sorting {
 
         sorting.bubbleSort(values, true);
         sorting.printData(values);
+
+        int[] mergeValues = {5,4,2,1,3};
+        sorting.printData(sorting.splitAndMerge(mergeValues, false));
+        sorting.printData(sorting.splitAndMerge(mergeValues, true));
 
     }
 
