@@ -45,7 +45,7 @@ public class Sorting {
         return data;
     }
 
-    private int partition(int[] values, int low, int high, boolean desc) {
+    private int partitionByLastItem(int[] values, int low, int high, boolean desc) {
         int i = low -1 ;
         int pivot = values[high];
         for(int j=low; j<high; j++) {
@@ -58,7 +58,7 @@ public class Sorting {
         return i+1;
     }
 
-    private int partition2(int[] values, int low, int high, boolean desc) {
+    private int partitionByFirstItem(int[] values, int low, int high, boolean desc) {
         int i = high+1 ;
         int pivot = values[low];
         for(int j=high; j>low; j--) {
@@ -71,11 +71,11 @@ public class Sorting {
         return i-1;
     }
 
-    private void quickSort(int[] values, int low, int high, boolean desc) {
+    private void quickSort(int[] values, int low, int high, boolean desc, boolean firstItem) {
         if (low < high) {
-            int pi = partition2(values, low, high, desc);
-            quickSort(values,low,pi-1,desc);
-            quickSort(values, pi+1, high, desc);
+            int pi = firstItem? partitionByFirstItem(values, low, high, desc) : partitionByLastItem(values, low, high, desc);
+            quickSort(values,low,pi-1,desc, firstItem);
+            quickSort(values, pi+1, high, desc, firstItem);
         }
     }
 
@@ -100,9 +100,9 @@ public class Sorting {
         sorting.printData(sorting.splitAndMerge(mergeValues, true));
 
         int[] quickSortValues = {5,4,2,1,3,6,9,10,11,15,12,15,9,8,7};
-        sorting.quickSort(quickSortValues, 0, quickSortValues.length-1, false);
+        sorting.quickSort(quickSortValues, 0, quickSortValues.length-1, false, true);
         sorting.printData(quickSortValues);
-        sorting.quickSort(quickSortValues, 0, quickSortValues.length-1, true);
+        sorting.quickSort(quickSortValues, 0, quickSortValues.length-1, true, false);
         sorting.printData(quickSortValues);
 
     }
