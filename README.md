@@ -155,6 +155,8 @@ Java Data Structures and Algorithm Examples
     - methodName: findIndexByBinarySearch
 
 #### Determine the Array is sorted or not. if sorted what is the type of the sort.
+
+#### Test branch
 - I created this function for a learning purpose.
 - It will return following data
   - 0 means the given array is not sorted.
